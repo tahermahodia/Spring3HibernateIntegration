@@ -1,0 +1,89 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+<html>
+<head>
+    <title>Spring 3 hibernate integration example on www.howtodoinjava.com</title>
+</head>
+
+<body>
+<div class="container">
+    
+<div class="row" style="margin-top:60px">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+<h2>Employee Management Screen</h2>
+ <h6><a href="<c:url value='j_spring_security_logout'/>">Click here to logout</a></h6>
+ 
+<form:form method="post" action="add" commandName="employee">
+ 
+    <table>
+    <tr>
+        <td><form:label path="firstname"><spring:message code="label.firstname"/></form:label></td>
+        <td><form:input path="firstname" /></td>
+    </tr>
+    <tr>
+        <td><form:label path="lastname"><spring:message code="label.lastname"/></form:label></td>
+        <td><form:input path="lastname" /></td>
+    </tr>
+    <tr>
+        <td><form:label path="email"><spring:message code="label.email"/></form:label></td>
+        <td><form:input path="email" /></td>
+    </tr>
+    <tr>
+        <td><form:label path="telephone"><spring:message code="label.telephone"/></form:label></td>
+        <td><form:input path="telephone" /></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <input type="submit" value="<spring:message code="label.add"/>"/>
+        </td>
+    </tr>
+</table> 
+</form:form>
+ 
+     
+<h3>Employees</h3>
+<c:if  test="${!empty employeeList}">
+<table class="data">
+<tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Telephone</th>
+    <th>&nbsp;</th>
+</tr>
+<c:forEach items="${employeeList}" var="emp">
+    <tr>
+        <td>${emp.lastname}, ${emp.firstname} </td>
+        <td>${emp.email}</td>
+        <td>${emp.telephone}</td>
+        <td><a href="delete/${emp.id}">delete</a></td>
+    </tr>
+</c:forEach>
+</table>
+</c:if>
+
+
+		<h1>Welcome!</h1><br />
+
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+
+         This session will be visible to an admin only.<br/>
+
+         You are an Administrator.<br/>
+
+        </sec:authorize>
+
+        <sec:authorize access="hasRole('ROLE_USER')">
+
+	         This session will be visible to an Customer only.<br/>
+	
+    	     You are an Customer.<br/>
+	
+        </sec:authorize>
+</div>
+ </div></div>
+</body>
+
+</html>
